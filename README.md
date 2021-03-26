@@ -1,5 +1,4 @@
-# Equipo 
-Noble team
+# Equipo: Noble team
 ## Integrantes
 1. Mayra Antonieta Hernández Galvan
 2. Ledesma Ortiz Miguel Angel
