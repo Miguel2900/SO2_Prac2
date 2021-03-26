@@ -17,8 +17,16 @@ void check_directory(char *directory_name, char *file_name);
 
 void main(int argc, char **argv)
 {
-    check_directory(argv[1], argv[2]);
-    create_directory(argv[1], argv[2]);
+    if (argc > 2)
+    {
+        check_directory(argv[1], argv[2]);
+        create_directory(argv[1], argv[2]);
+    }
+    else
+    {
+        printf("Debe ingresar nombre del folder y archivo\n");
+    }
+    
 }
 
 void check_directory(char *directory_name, char *file_name)
@@ -32,12 +40,11 @@ void check_directory(char *directory_name, char *file_name)
         closedir(dir);
     }
     if (file)
-    {
-        printf("Ingerese nuevo nombre del archivo con formato: %s/NOMBREARCHIVO.txt\n", directory_name);
+    {   
+        printf("Ingrese nuevo nombre del archivo con el formato: Nombre_del_folder/Nombre_del_archivo.txt\n");            
         scanf("%s", file_name);
         fclose(file);
     }
-    
 }
 void create_directory(char *directory_name, char *file_name)
 {
@@ -65,11 +72,11 @@ void create_file(char *directory_name, char *file_name)
     {
         if (fwrite(names, strlen(names), 1, participants))
         {
-            printf("Archivo creado correctamente");
+            printf("Archivo creado correctamente\n");
         }
         else
         {
-            printf("No se pudo escribir en el archivo");
+            printf("No se pudo escribir en el archivo\n");
         }
         fclose(participants);
     }
@@ -84,7 +91,7 @@ void make_symbolic_link(char *filename)
     }
     else
     {
-        printf("No se pudo crear el enlace simoblico");
+        printf("No se pudo crear el enlace simbolico\n");
     }
 }
 
@@ -97,7 +104,7 @@ void make_hard_link(char *filename)
     }
     else
     {
-        printf("No se pudo crear el enlace fisisco");
+        printf("No se pudo crear el enlace fisico\n");
     }
 }
 
@@ -106,7 +113,7 @@ void list_file_attributes(char*filename)
     struct stat file_stat;
     if (!stat(filename, &file_stat))
     {
-        printf("Atributos del archivo %s\n", filename);
+        printf("\nAtributos del archivo %s\n", filename);
         printf("Numero de inodo %ld\n", file_stat.st_ino);
         printf("Tamaño en bytes %ld\n", file_stat.st_size);
         printf("Numero de enlaces %ld\n", file_stat.st_nlink);
@@ -115,10 +122,17 @@ void list_file_attributes(char*filename)
 
 void list_directory_attributes(char *directory_name)
 {
-    struct stat dir_stat;
-    if (!stat(directory_name, &dir_stat))
+    struct dirent* dirInfo;
+    DIR* dirPtr = opendir("./");
+    if (dirPtr)
     {
-        printf("Atributos del directorio %s\n", directory_name);
-        printf("Numero de inodo %ld\n", dir_stat.st_ino);
-    }
+        printf("\nContenido de la carpeta:\n");
+        while (dirInfo = readdir(dirPtr))
+        {
+            printf("Nombre del archivo %s\n",dirInfo->d_name);
+            printf("Numero del inodo %ld\n\n", dirInfo->d_ino);
+        }
+        free(dirInfo);
+        free(dirPtr);
+    }   
 }
