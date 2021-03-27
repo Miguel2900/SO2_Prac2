@@ -48,7 +48,6 @@ void check_directory(char *directory_name, char *file_name)
 }
 void create_directory(char *directory_name, char *file_name)
 {
-    int check;
     char *actual_directory = directory_name;
     if (!mkdir(directory_name, 0777))
     {
